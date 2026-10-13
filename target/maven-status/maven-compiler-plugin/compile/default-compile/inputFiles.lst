@@ -1,0 +1,12 @@
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/Cliente.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/ClienteTransferencia.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/EscuchaTransferencia.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/Lanzador.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/MetadataAudio.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/PanelVentana.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/PaqueteProtocolo.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/ProtocoloConfig.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/ReproductorAudio.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/Servidor.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/ServidorTransferencia.java
+/Users/chunkdunk/NetBeansProjects/redes_udp_gbn_mp3/src/main/java/com/redes/udp/TemaUI.java
