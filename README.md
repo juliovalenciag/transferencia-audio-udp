@@ -37,7 +37,7 @@ src/main/java/com/redes/udp/
 └── TemaUI.java                   Sistema visual compartido
 ```
 
-El borrador se encuentra en [`REPORTE.md`](REPORTE.md).
+El borrador se encuentra en [`REPORTE.md`](REPORTE.md) y la especificación técnica completa en [`ESPECIFICACIONES_TECNICAS.md`](ESPECIFICACIONES_TECNICAS.md).
 
 ## Formato del número de secuencia
 
@@ -87,9 +87,9 @@ Requisitos: JDK 17 o posterior y una versión reciente de Apache NetBeans con so
 3. Espera a que Maven descargue `jlayer 1.0.1` y `mp3agic 0.9.1`.
 4. Si NetBeans muestra otra plataforma Java, abre **Project Properties > Libraries > Java Platform** y elige JDK 17 o posterior.
 5. Pulsa **Run Project (F6)**. Maven tiene declarada `com.redes.udp.Lanzador` como clase principal.
-6. En el lanzador selecciona **Abrir servidor y cliente**, o abre cada ventana por separado.
-7. En el servidor, elige el MP3, revisa puerto/ventana/timeout y pulsa **Iniciar servidor**.
-8. En el cliente, indica la IP del servidor y una ruta de salida. Pulsa **Recibir archivo**.
+6. En el lanzador selecciona **Abrir ambos lado a lado**, o abre cada ventana por separado.
+7. En el servidor, elige el MP3, revisa puerto/ventana/timeout y pulsa **Iniciar**.
+8. En el cliente, indica la IP del servidor y una ruta de salida. Pulsa **Recibir**.
 9. Al terminar, el cliente verifica SHA-256, muestra Artista/Álbum/Año y habilita el reproductor. La opción **Reproducir al terminar** está activada inicialmente.
 
 Si el proyecto ya estaba abierto cuando se modificó el `pom.xml`, usa **clic derecho sobre el proyecto > Reload Project** o ciérralo y vuelve a abrirlo. Después ejecuta **Clean and Build** una vez. `Servidor.java` y `Cliente.java` conservan sus propios métodos `main`, por lo que también se pueden ejecutar con **Run File**, pero ya no es necesario para usar la aplicación.
@@ -124,7 +124,7 @@ Al ejecutarlas fuera de NetBeans se deben incluir JLayer y mp3agic en el classpa
 
 El proyecto entregado es Maven. Si la materia exige Ant:
 
-1. Crea en NetBeans **Java with Ant > Java Application** con JDK 21.
+1. Crea en NetBeans **Java with Ant > Java Application** con JDK 17 o posterior.
 2. Copia el paquete `com.redes.udp` dentro de `Source Packages`.
 3. Descarga `jlayer-1.0.1.jar` y `mp3agic-0.9.1.jar` desde Maven Central.
 4. Haz clic derecho en **Libraries > Add JAR/Folder** y agrega ambos archivos.

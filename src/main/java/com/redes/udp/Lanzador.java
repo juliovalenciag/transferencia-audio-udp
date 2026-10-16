@@ -62,14 +62,14 @@ public final class Lanzador extends JFrame {
                 .getMaximumWindowBounds();
         int margen = 10;
         int ancho = (pantalla.width - margen * 3) / 2;
-        int alto = Math.min(630, pantalla.height - margen * 2);
+        int alto = Math.min(680, pantalla.height - margen * 2);
         if (ancho >= 610) {
             servidor.setBounds(pantalla.x + margen, pantalla.y + margen, ancho, alto);
             cliente.setBounds(pantalla.x + margen * 2 + ancho, pantalla.y + margen, ancho, alto);
         } else {
             
             int anchoSeguro = Math.min(680, pantalla.width - 40);
-            int altoSeguro = Math.min(610, pantalla.height - 60);
+            int altoSeguro = Math.min(680, pantalla.height - 60);
             servidor.setBounds(pantalla.x + 10, pantalla.y + 10, anchoSeguro, altoSeguro);
             cliente.setBounds(pantalla.x + 30, pantalla.y + 30, anchoSeguro, altoSeguro);
         }

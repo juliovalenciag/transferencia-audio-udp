@@ -63,8 +63,8 @@ public final class Servidor extends JFrame {
 
     private void construirInterfaz() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setMinimumSize(new Dimension(610, 530));
-        setSize(680, 610);
+        setMinimumSize(new Dimension(610, 560));
+        setSize(680, 640);
         setLocationRelativeTo(null);
         getContentPane().setBackground(TemaUI.FONDO);
         setLayout(new BorderLayout(0, 10));
@@ -77,14 +77,18 @@ public final class Servidor extends JFrame {
 
         JPanel centro = new JPanel(new BorderLayout(0, 8));
         centro.setOpaque(false);
-        centro.add(panelResumen(), BorderLayout.NORTH);
+        // Resumen y ventana conservan su alto; el registro ocupa el espacio restante.
+        JPanel superior = new JPanel(new BorderLayout(0, 8));
+        superior.setOpaque(false);
+        superior.add(panelResumen(), BorderLayout.NORTH);
         JPanel ventana = TemaUI.seccion("Ventana de envío");
         ventana.add(panelVentana, BorderLayout.CENTER);
-        centro.add(ventana, BorderLayout.CENTER);
+        superior.add(ventana, BorderLayout.CENTER);
+        centro.add(superior, BorderLayout.NORTH);
         JPanel registro = TemaUI.seccion("Actividad");
         registro.setPreferredSize(new Dimension(100, 180));
         registro.add(TemaUI.scroll(consola), BorderLayout.CENTER);
-        centro.add(registro, BorderLayout.SOUTH);
+        centro.add(registro, BorderLayout.CENTER);
         contenido.add(centro, BorderLayout.CENTER);
         add(contenido, BorderLayout.CENTER);
     }
@@ -307,8 +311,10 @@ public final class Servidor extends JFrame {
     }
 
     private static String mensajeRaiz(Throwable ex) {
+        // Solo se quita la envoltura de SwingWorker: el mensaje propio de la aplicación es el
+        // más claro (la causa más profunda puede ser, p. ej., AsynchronousCloseException sin texto).
         Throwable actual = ex;
-        while (actual.getCause() != null) {
+        while (actual instanceof java.util.concurrent.ExecutionException && actual.getCause() != null) {
             actual = actual.getCause();
         }
         return actual.getMessage() == null ? actual.toString() : actual.getMessage();

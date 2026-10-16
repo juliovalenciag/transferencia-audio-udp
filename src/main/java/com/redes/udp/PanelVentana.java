@@ -79,9 +79,11 @@ public final class PanelVentana extends JPanel {
         g.setColor(TemaUI.TEXTO_SUAVE);
         g.drawString("confirmados / en vuelo / disponibles", 14, 14);
         g.setColor(TemaUI.AMBAR);
-        g.drawString("base " + base, 14, 75);
+        String textoBase = "base " + base;
+        g.drawString(textoBase, 14, 75);
         g.setColor(TemaUI.TEXTO_SUAVE);
-        g.drawString("siguiente " + siguiente + "   total " + total, 78, 75);
+        g.drawString("siguiente " + siguiente + "   total " + total,
+                14 + g.getFontMetrics().stringWidth(textoBase) + 12, 75);
         g.dispose();
     }
 }

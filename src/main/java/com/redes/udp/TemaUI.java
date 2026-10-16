@@ -172,6 +172,9 @@ public final class TemaUI {
         spinner.setForeground(TEXTO);
         spinner.setBackground(SUPERFICIE);
         spinner.setPreferredSize(new Dimension(72, 30));
+        if (spinner.getModel() instanceof javax.swing.SpinnerNumberModel) {
+            spinner.setEditor(new JSpinner.NumberEditor(spinner, "#")); // puerto 9876, no 9,876
+        }
         Component editor = spinner.getEditor();
         if (editor instanceof JSpinner.DefaultEditor defaultEditor) {
             defaultEditor.getTextField().setForeground(TEXTO);

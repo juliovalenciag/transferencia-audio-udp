@@ -140,6 +140,7 @@ public final class ServidorTransferencia implements AutoCloseable {
         int base = 0;
         int siguiente = 0;
         long inicioTemporizador = 0;
+        long ultimaRespuesta = System.nanoTime();
         boolean[] enviados = new boolean[paquetes.length];
 
         while (base < paquetes.length) {
@@ -178,6 +179,7 @@ public final class ServidorTransferencia implements AutoCloseable {
                     escucha.log("ACK inválido descartado");
                     continue;
                 }
+                ultimaRespuesta = System.nanoTime(); // incluso un ACK duplicado prueba que el cliente sigue activo
                 if (ack.numero() >= base) {
                     int baseAnterior = base;
                     base = ack.numero() + 1; // ACK acumulativo
@@ -193,6 +195,11 @@ public final class ServidorTransferencia implements AutoCloseable {
                     escucha.log("ACK duplicado " + ack.numero() + " ignorado");
                 }
             } catch (SocketTimeoutException ex) {
+                if ((System.nanoTime() - ultimaRespuesta) / 1_000_000
+                        > ProtocoloConfig.TIMEOUT_SIN_RESPUESTA_SERVIDOR_MS) {
+                    throw new IOException("El cliente dejó de responder durante "
+                            + ProtocoloConfig.TIMEOUT_SIN_RESPUESTA_SERVIDOR_MS / 1000 + " segundos");
+                }
                 escucha.log("SO_TIMEOUT · Retroceder-N desde paquete " + base);
                 siguiente = base;
                 inicioTemporizador = System.nanoTime();

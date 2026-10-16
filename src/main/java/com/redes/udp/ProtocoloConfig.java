@@ -16,6 +16,7 @@ public final class ProtocoloConfig {
     public static final int SO_TIMEOUT_MS = 1200;
     public static final int MAX_REINTENTOS_CONTROL = 10;
     public static final int TIMEOUT_INACTIVIDAD_CLIENTE_MS = 15_000;
+    public static final int TIMEOUT_SIN_RESPUESTA_SERVIDOR_MS = 30_000;
 
     public static final String ARCHIVO_ORIGEN = "cancion1.mp3";
     public static final String ARCHIVO_DESTINO = "cancion1-recibida.mp3";

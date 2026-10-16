@@ -14,11 +14,13 @@ public final class ReproductorAudio implements AutoCloseable {
     public synchronized void reproducir(Path archivo, Consumer<String> evento) throws Exception {
         close();
         BufferedInputStream entrada = new BufferedInputStream(new FileInputStream(archivo.toFile()));
-        player = new Player(entrada);
+        Player nuevo = new Player(entrada);
+        player = nuevo;
+        // El hilo usa su propia referencia: una reproducción nueva no debe ser tomada por un hilo anterior.
         hilo = new Thread(() -> {
             try {
                 evento.accept("Reproduciendo");
-                player.play();
+                nuevo.play();
                 evento.accept("Reproducción finalizada");
             } catch (Exception ex) {
                 evento.accept("Reproducción detenida");

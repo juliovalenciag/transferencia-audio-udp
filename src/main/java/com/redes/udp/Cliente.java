@@ -67,8 +67,8 @@ public final class Cliente extends JFrame {
 
     private void construirInterfaz() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setMinimumSize(new Dimension(610, 550));
-        setSize(680, 630);
+        setMinimumSize(new Dimension(610, 600));
+        setSize(680, 680);
         setLocationRelativeTo(null);
         getContentPane().setBackground(TemaUI.FONDO);
         setLayout(new BorderLayout(0, 10));
@@ -81,11 +81,15 @@ public final class Cliente extends JFrame {
 
         JPanel centro = new JPanel(new BorderLayout(0, 8));
         centro.setOpaque(false);
-        centro.add(panelResumen(), BorderLayout.NORTH);
+        // Resumen y ventana conservan su alto; las pestañas ocupan el espacio restante.
+        JPanel superior = new JPanel(new BorderLayout(0, 8));
+        superior.setOpaque(false);
+        superior.add(panelResumen(), BorderLayout.NORTH);
         JPanel ventana = TemaUI.seccion("Recepción acumulativa");
         ventana.add(panelVentana, BorderLayout.CENTER);
-        centro.add(ventana, BorderLayout.CENTER);
-        centro.add(panelDetalles(), BorderLayout.SOUTH);
+        superior.add(ventana, BorderLayout.CENTER);
+        centro.add(superior, BorderLayout.NORTH);
+        centro.add(panelDetalles(), BorderLayout.CENTER);
         contenido.add(centro, BorderLayout.CENTER);
         add(contenido, BorderLayout.CENTER);
     }
@@ -259,7 +263,11 @@ public final class Cliente extends JFrame {
             double perdida = ((Number) campoPerdidaAck.getValue()).doubleValue() / 100.0;
             transferencia = new ClienteTransferencia(campoHost.getText(), puerto, destino,
                     perdida, crearEscucha());
+            // Liberar el archivo anterior: puede tener el mismo nombre que el destino nuevo.
+            reproductor.close();
             archivoCompleto = null;
+            botonReproducir.setEnabled(false);
+            botonDetenerAudio.setEnabled(false);
             bloquear(true);
             consola.setText("");
             metadata.setText("Esperando el archivo completo…");
@@ -301,6 +309,10 @@ public final class Cliente extends JFrame {
     private void mostrarMetadata(ClienteTransferencia.Resultado resultado) {
         try {
             MetadataAudio.Info info = MetadataAudio.leer(resultado.archivo());
+            // Requisito: imprimir Artista, Álbum y Año en consola antes de reproducir.
+            System.out.println("Artista: " + info.artista());
+            System.out.println("Álbum: " + info.album());
+            System.out.println("Año: " + info.anio());
             metadata.setText("Título:  " + info.titulo()
                     + "\nArtista: " + info.artista()
                     + "\nÁlbum:   " + info.album()
@@ -309,10 +321,12 @@ public final class Cliente extends JFrame {
                     + info.duracionSegundos() + " s · " + info.bitrate() + " kbps · "
                     + info.frecuencia() + " Hz"
                     + "\n\nSHA-256\n" + HexFormat.of().formatHex(resultado.sha256()));
+            metadata.setCaretPosition(0);
             agregarLog("Metadata " + info.tipoEtiqueta() + " leída después de completar el archivo");
         } catch (Exception ex) {
             metadata.setText("Archivo completo y verificado.\n\nNo fue posible leer etiquetas ID3: "
                     + ex.getMessage());
+            metadata.setCaretPosition(0);
             agregarLog("Aviso de metadata: " + ex.getMessage());
         }
     }
@@ -408,8 +422,10 @@ public final class Cliente extends JFrame {
     }
 
     private static String mensajeRaiz(Throwable ex) {
+        // Solo se quita la envoltura de SwingWorker: el mensaje propio de la aplicación es el
+        // más claro (la causa más profunda puede ser, p. ej., AsynchronousCloseException sin texto).
         Throwable actual = ex;
-        while (actual.getCause() != null) {
+        while (actual instanceof java.util.concurrent.ExecutionException && actual.getCause() != null) {
             actual = actual.getCause();
         }
         return actual.getMessage() == null ? actual.toString() : actual.getMessage();
